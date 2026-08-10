@@ -1,0 +1,345 @@
+/* =========================================================
+   CYBERLENS — INDUSTRIAL ANALYST DASHBOARD
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+.stApp {
+    background: #050b14;
+    color: #ffffff;
+}
+
+.block-container {
+    max-width: 1450px;
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+h1 {
+    color: #ffffff !important;
+    font-size: 2.55rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.4rem !important;
+}
+
+h2 {
+    color: #ffffff !important;
+    font-size: 1.65rem !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.02em;
+}
+
+h3 {
+    color: #ffffff !important;
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+}
+
+p {
+    color: #c9e8f5 !important;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   SECTION LABELS
+   ========================================================= */
+
+[data-testid="stCaptionContainer"] {
+    color: #48d7ff !important;
+    font-size: 0.70rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   DIVIDERS
+   ========================================================= */
+
+hr {
+    border: none !important;
+    border-top: 1px solid #173149 !important;
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+}
+
+
+/* =========================================================
+   METRIC CARDS
+   ========================================================= */
+
+[data-testid="stMetric"] {
+    background: #0a1625;
+    border: 1px solid #1c4059;
+    border-radius: 8px;
+    padding: 1.25rem 1.35rem;
+    min-height: 125px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+[data-testid="stMetricLabel"] {
+    color: #72dfff !important;
+    font-size: 0.70rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+}
+
+[data-testid="stMetricValue"] {
+    color: #ffffff !important;
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+}
+
+
+/* =========================================================
+   MODULE CARDS
+   ========================================================= */
+
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: #0a1625;
+    border: 1px solid #1c4059;
+    border-radius: 8px;
+    padding: 1.35rem !important;
+    min-height: 245px;
+    box-sizing: border-box;
+}
+
+
+/* Module card hover */
+
+[data-testid="stVerticalBlockBorderWrapper"]:hover {
+    background: #0d1d30;
+    border-color: #2ed7ff;
+}
+
+
+/* =========================================================
+   MODULE CARD HEADINGS
+   ========================================================= */
+
+[data-testid="stVerticalBlockBorderWrapper"] h3 {
+    color: #ffffff !important;
+    margin-top: 0.25rem !important;
+    margin-bottom: 0.65rem !important;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.stButton {
+    margin-top: 0.6rem;
+}
+
+.stButton > button {
+    width: 100%;
+    min-height: 44px;
+
+    background: #ff8a00 !important;
+    color: #07111d !important;
+
+    border: 1px solid #ffb347 !important;
+    border-radius: 6px;
+
+    font-size: 0.88rem;
+    font-weight: 800;
+
+    letter-spacing: 0.03em;
+
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
+}
+
+
+/* Button hover */
+
+.stButton > button:hover {
+    background: #ffad33 !important;
+    border-color: #ffd080 !important;
+    color: #050b14 !important;
+    transform: translateY(-1px);
+}
+
+
+/* Button press */
+
+.stButton > button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.stButton > button[kind="primary"] {
+    background: #00b8e6 !important;
+    color: #03101a !important;
+    border-color: #4be3ff !important;
+}
+
+.stButton > button[kind="primary"]:hover {
+    background: #35d9ff !important;
+    border-color: #9af1ff !important;
+}
+
+
+/* =========================================================
+   ALERT / INFO
+   ========================================================= */
+
+[data-testid="stAlert"] {
+    background: #0a1b2d;
+    border: 1px solid #24506b;
+    border-radius: 7px;
+    color: #d9f5ff !important;
+}
+
+[data-testid="stAlert"] p {
+    color: #d9f5ff !important;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+section[data-testid="stSidebar"] {
+    background: #030811;
+    border-right: 1px solid #173149;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+input,
+textarea {
+    background: #07111d !important;
+    color: #ffffff !important;
+    border: 1px solid #1c4059 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #7fdcf3 !important;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #24d5ff !important;
+    box-shadow: 0 0 0 1px #24d5ff !important;
+}
+
+
+/* =========================================================
+   SELECT BOX
+   ========================================================= */
+
+[data-baseweb="select"] > div {
+    background: #07111d !important;
+    color: #ffffff !important;
+    border-color: #1c4059 !important;
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+    color: #45ddff !important;
+}
+
+
+/* =========================================================
+   CODE
+   ========================================================= */
+
+code {
+    background: #0b1c2d !important;
+    color: #62e4ff !important;
+    border: 1px solid #1b4058;
+}
+
+
+/* =========================================================
+   WORKFLOW NUMBERS
+   ========================================================= */
+
+.stMarkdown strong {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   CONSISTENT COLUMN SPACING
+   ========================================================= */
+
+[data-testid="stHorizontalBlock"] {
+    gap: 1.25rem !important;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.cyber-footer {
+    text-align: center;
+    padding-top: 2rem;
+    color: #55dfff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .block-container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2.1rem !important;
+    }
+
+    h2 {
+        font-size: 1.4rem !important;
+    }
+
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        min-height: 220px;
+    }
+}

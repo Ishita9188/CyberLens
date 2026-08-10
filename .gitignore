@@ -1,0 +1,13 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+*.zip
+*.csv
+*.pth
+*.h5
+*.bin
+*.pt
+*.safetensors
+*.jsonl

@@ -1,0 +1,13 @@
+streamlit
+pandas
+numpy
+scikit-learn
+joblib
+matplotlib
+plotly
+spacy
+transformers
+torch
+lime
+shap
+bcrypt
