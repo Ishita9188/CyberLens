@@ -10,4 +10,4 @@ __pycache__/
 *.bin
 *.pt
 *.safetensors
-*.jsonl
+*.jsonl  

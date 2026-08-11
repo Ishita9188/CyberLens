@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 from datetime import datetime
 from database import get_connection
-
+from utils.navigation import analyst_navigation
 # ============================================================
 # PAGE CONFIGURATION
 # ============================================================
@@ -23,7 +23,9 @@ st.set_page_config(
 if not st.session_state.get("logged_in", False):
     st.error("Please login to access CyberLens.")
     st.stop()
-
+analyst_navigation(
+    active_page="threat"
+)
 USER_ID = st.session_state.get("user_id")
 
 # ============================================================
@@ -556,7 +558,7 @@ def log_attack_analysis(
 # ============================================================
 
 st.title(
-    "🧩 CyberLens - MITRE ATT&CK Mapping"
+    "🧩 MITRE ATT&CK Mapping"
 )
 
 st.write(

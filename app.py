@@ -1,22 +1,10 @@
 import streamlit as st
-
-
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
-
 st.set_page_config(
     page_title="CyberLens",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-
-
-# ============================================================
-# HEADER
-# ============================================================
-
 st.caption("CYBER INTELLIGENCE PLATFORM")
 
 st.title("🛡️ CyberLens")
@@ -35,11 +23,6 @@ st.write(
 
 st.write("")
 
-
-# ============================================================
-# PRIMARY ACTIONS
-# ============================================================
-
 col1, col2, col3, col4 = st.columns([2, 2, 1, 2])
 
 with col2:
@@ -57,17 +40,7 @@ with col3:
     ):
         st.switch_page("pages/Login.py")
 
-
-# ============================================================
-# DIVIDER
-# ============================================================
-
 st.divider()
-
-
-# ============================================================
-# PLATFORM OVERVIEW
-# ============================================================
 
 st.caption("PLATFORM OVERVIEW")
 
@@ -79,11 +52,6 @@ st.write(
 )
 
 st.write("")
-
-
-# ============================================================
-# THREE CORE CAPABILITIES
-# ============================================================
 
 col1, col2, col3 = st.columns(3, gap="large")
 
@@ -149,12 +117,6 @@ with col3:
             label="Capability",
             value="Compliance"
         )
-
-
-# ============================================================
-# WORKFLOW
-# ============================================================
-
 st.write("")
 st.write("")
 
@@ -246,12 +208,6 @@ st.write(
 )
 
 st.write("")
-
-
-# ------------------------------------------------------------
-# ROW 1
-# ------------------------------------------------------------
-
 col1, col2, col3 = st.columns(3, gap="large")
 
 
@@ -296,11 +252,6 @@ with col3:
             "relevant categories."
         )
 
-
-# ------------------------------------------------------------
-# ROW 2
-# ------------------------------------------------------------
-
 st.write("")
 
 col1, col2, col3 = st.columns(3, gap="large")
@@ -318,8 +269,6 @@ with col1:
             "Map extracted threat intelligence to relevant "
             "MITRE ATT&CK tactics and techniques."
         )
-
-
 with col2:
 
     with st.container(border=True):
@@ -346,12 +295,6 @@ with col3:
             "Connect cybersecurity findings with relevant "
             "regulatory requirements and actions."
         )
-
-
-# ------------------------------------------------------------
-# MODULE 7
-# ------------------------------------------------------------
-
 st.write("")
 
 col1, col2, col3 = st.columns([1, 2, 1])
@@ -368,11 +311,6 @@ with col2:
             "Provide understandable reasoning behind "
             "threat detection and intelligence results."
         )
-
-
-# ============================================================
-# FINAL CTA
-# ============================================================
 
 st.write("")
 st.write("")
@@ -400,12 +338,6 @@ with col2:
         use_container_width=True
     ):
         st.switch_page("pages/Register.py")
-
-
-# ============================================================
-# FOOTER
-# ============================================================
-
 st.write("")
 st.write("")
 

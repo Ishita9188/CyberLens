@@ -2,7 +2,7 @@ import streamlit as st
 import re
 from collections import Counter
 from datetime import datetime
-
+from utils.navigation import analyst_navigation
 import torch
 
 # ============================================================
@@ -15,8 +15,15 @@ st.set_page_config(
     page_icon="🛡️",
     layout="wide"
 )
+user_id = st.session_state.get("user_id")
 
-st.title("🛡️ CyberLens - Threat Intelligence Summarization")
+if not user_id:
+    st.warning("User session not found. Please log in again.")
+    st.stop()
+analyst_navigation(
+    active_page="threat"
+)
+st.title("🛡️ Threat Intelligence Summarization")
 st.caption(
     "Generate a concise threat summary and identify cybersecurity-specific "
     "terms, indicators, actors and attack-related concepts."

@@ -4,7 +4,7 @@ import os
 import re
 import json
 from collections import Counter
-
+from utils.navigation import analyst_navigation
 # ============================================================
 # PAGE CONFIGURATION
 # ============================================================
@@ -29,7 +29,9 @@ MODEL_PATH = r"D:\Semester5\NLP\CyberLens\static\model\threat_category\threat_ca
 if not st.session_state.get("logged_in", False):
     st.error("Please login to access Threat Category Analysis.")
     st.stop()
-
+analyst_navigation(
+    active_page="threat"
+)
 user_id = st.session_state.get("user_id")
 fullname = st.session_state.get("fullname", "User")
 
@@ -419,7 +421,7 @@ def log_threat_category_analysis(
 # PAGE HEADER
 # ============================================================
 
-st.title("🛡️ CyberLens - Threat Category Classification")
+st.title("🛡️Threat Category Classification")
 
 st.write(
     "Analyze cybersecurity threat descriptions using "

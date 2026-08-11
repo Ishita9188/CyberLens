@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 from sqlalchemy import text
 
 from database import engine
-
+from utils.navigation import analyst_navigation
 
 # ============================================================
 # URL TOKENIZER
@@ -56,7 +56,23 @@ if not st.session_state.get("logged_in", False):
         st.switch_page("pages/Login.py")
 
     st.stop()
+if not st.session_state.get("logged_in", False):
 
+    st.warning("Please log in to access Phishing Detection.")
+
+    if st.button("Go to Login", type="primary"):
+        st.switch_page("pages/Login.py")
+
+    st.stop()
+analyst_navigation(
+    active_page="threat"
+)
+
+# ============================================================
+# GET LOGGED-IN USER
+# ============================================================
+
+user_id = st.session_state.get("user_id")
 
 # ============================================================
 # GET LOGGED-IN USER

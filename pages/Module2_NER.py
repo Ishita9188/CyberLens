@@ -3,7 +3,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from database import log_ner_analysis
 from database import get_connection
-
+from utils.navigation import analyst_navigation
 
 # ============================================================
 # PAGE CONFIGURATION
@@ -13,7 +13,6 @@ st.set_page_config(
     page_title="CyberLens - Cyber Threat NER",
     page_icon="🧠",
     layout="wide",
-    initial_sidebar_state="collapsed"
 )
 
 
@@ -29,7 +28,9 @@ if not st.session_state.get("logged_in", False):
     
     st.stop()
 
-
+analyst_navigation(
+    active_page="threat"
+)
 # ============================================================
 # MODEL PATH
 # ============================================================
@@ -96,6 +97,8 @@ st.title("🧠 Cyber Threat Entity Extraction")
 st.write(
     "Analyze a cybersecurity threat report and extract "
     "important entities using the CyberLens NER model."
+    "The model was trained using the "
+    "combined CyNER and DNRTI datasets."
 )
 
 st.divider()
@@ -429,34 +432,7 @@ if st.button(
         entities
         )   
 
-        
-# ============================================================
-# SIDEBAR
-# ============================================================
 
-with st.sidebar:
-
-    st.subheader("CyberLens")
-
-    st.write(
-        f"User: "
-        f"**{st.session_state.get('fullname', 'User')}**"
-    )
-
-    st.write(
-        "Module 2: Cyber Threat Entity Extraction"
-    )
-
-    st.divider()
-
-    st.write(
-        "The model was trained using the "
-        "combined CyNER and DNRTI datasets."
-    )
-
-    st.write(
-        f"Model labels: {len(model.config.id2label)}"
-    )
 
 
 
