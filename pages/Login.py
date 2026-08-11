@@ -71,28 +71,60 @@ if st.button(
 
         if user:
 
-            # Store logged-in user information
+            # ====================================================
+            # STORE USER SESSION
+            # ====================================================
+
             st.session_state["logged_in"] = True
             st.session_state["user_id"] = user["id"]
             st.session_state["fullname"] = user["fullname"]
             st.session_state["username"] = user["username"]
             st.session_state["role"] = user["role"]
 
+            # Store organization information if available
+            st.session_state["organization_id"] = user.get(
+                "organization_id"
+            )
+
+            st.session_state["organization_name"] = user.get(
+                "organization_name"
+            )
+
             st.success(
                 f"Welcome, {user['fullname']}!"
             )
 
-            # Go to dashboard
-            st.switch_page(
-                "pages/Dashboard.py"
-            )
+            # ====================================================
+            # ROLE-BASED NAVIGATION
+            # ====================================================
+
+            role = str(
+                user.get("role", "")
+            ).strip().lower()
+
+            if role in [
+                "organization",
+                "organization official",
+                "organization_official",
+                "admin"
+            ]:
+
+                st.switch_page(
+                    "pages/Organization_Dashboard.py"
+                )
+
+            else:
+
+                # Default = Analyst
+                st.switch_page(
+                    "pages/Analyst_Dashboard.py"
+                )
 
         else:
 
             st.error(
                 "Invalid username or password."
             )
-
 
 # ============================================================
 # REGISTRATION LINK

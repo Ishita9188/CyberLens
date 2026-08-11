@@ -100,3 +100,24 @@ def log_ner_analysis(user_id, input_text, entities):
 
         print("NER logging error:", e)
         return False
+
+def initialize_organizations():
+
+    with engine.begin() as connection:
+
+        # Create organizations table
+        connection.execute(text("""
+            CREATE TABLE IF NOT EXISTS organizations (
+                id SERIAL PRIMARY KEY,
+                organization_name VARCHAR(255) NOT NULL UNIQUE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """))
+
+        # Add organization_id to users
+        connection.execute(text("""
+            ALTER TABLE users
+            ADD COLUMN IF NOT EXISTS organization_id INTEGER
+            REFERENCES organizations(id)
+            ON DELETE SET NULL
+        """))
