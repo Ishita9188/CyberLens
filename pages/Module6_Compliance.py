@@ -12,10 +12,12 @@ from pathlib import Path
 from datetime import datetime
 from sqlalchemy import text
 from utils.navigation import analyst_navigation
-
+from utils.theme import load_theme
 # ============================================================
 # PAGE CONFIGURATION
 # ============================================================
+
+load_theme()
 
 st.set_page_config(
     page_title="CyberLens - Compliance Analysis",

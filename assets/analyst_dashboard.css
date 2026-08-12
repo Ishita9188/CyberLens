@@ -1,345 +1,223 @@
-/* =========================================================
-   CYBERLENS — INDUSTRIAL ANALYST DASHBOARD
-   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Condensed:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap');
 
+:root {
+    --steel-bg: #1a1d21;
+    --steel-panel: #23272c;
+    --steel-panel-hover: #2b3036;
+    --steel-border: #3d434a;
+    --safety-yellow: #f2b705;
+    --rust-orange: #c1502e;
+    --text-primary: #e8e6e1;
+    --text-muted: #8b9198;
+}
 
-/* =========================================================
-   GLOBAL
-   ========================================================= */
-
+/* ---------- base app shell (solid, no grid) ---------- */
 .stApp {
-    background: #050b14;
-    color: #ffffff;
+    background-color: var(--steel-bg);
 }
 
-.block-container {
-    max-width: 1450px;
-    padding-top: 2.5rem;
-    padding-bottom: 4rem;
-    padding-left: 3rem;
-    padding-right: 3rem;
+.stApp::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    z-index: 999;
+    background: repeating-linear-gradient(
+        135deg,
+        var(--safety-yellow) 0px, var(--safety-yellow) 14px,
+        #1a1d21 14px, #1a1d21 28px
+    );
 }
 
+[data-testid="stHeader"] {
+    background-color: rgba(26, 29, 33, 0.85);
+    border-bottom: 1px solid var(--steel-border);
+}
 
-/* =========================================================
-   TYPOGRAPHY
-   ========================================================= */
+[data-testid="stAppViewContainer"] {
+    color: var(--text-primary);
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+[data-testid="stMainBlockContainer"] {
+    padding-top: 3rem;
+}
+
+/* ---------- typography ---------- */
+h1, h2, h3, h4, h5 {
+    font-family: 'Oswald', sans-serif !important;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--text-primary) !important;
+}
 
 h1 {
-    color: #ffffff !important;
-    font-size: 2.55rem !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.04em;
-    margin-bottom: 0.4rem !important;
+    border-left: 6px solid var(--safety-yellow);
+    padding-left: 0.6em;
 }
 
 h2 {
-    color: #ffffff !important;
-    font-size: 1.65rem !important;
-    font-weight: 750 !important;
-    letter-spacing: -0.02em;
+    border-left: 4px solid var(--rust-orange);
+    padding-left: 0.55em;
 }
 
 h3 {
-    color: #ffffff !important;
-    font-size: 1.15rem !important;
-    font-weight: 700 !important;
+    color: var(--text-primary) !important;
 }
 
-p {
-    color: #c9e8f5 !important;
-    line-height: 1.65;
+p, li, span, label, .stMarkdown {
+    font-family: 'Roboto Condensed', sans-serif;
+    color: var(--text-primary);
 }
 
+strong {
+    color: var(--safety-yellow);
+}
 
-/* =========================================================
-   SECTION LABELS
-   ========================================================= */
-
-[data-testid="stCaptionContainer"] {
-    color: #48d7ff !important;
-    font-size: 0.70rem !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.14em;
+/* captions styled like stenciled plate labels / gauge tags */
+[data-testid="stCaptionContainer"], .stCaption {
+    font-family: 'Roboto Mono', monospace !important;
     text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.72rem !important;
+    color: var(--safety-yellow) !important;
+    font-weight: 700;
 }
 
-
-/* =========================================================
-   DIVIDERS
-   ========================================================= */
-
+/* ---------- dividers ---------- */
 hr {
-    border: none !important;
-    border-top: 1px solid #173149 !important;
-    margin-top: 2rem !important;
-    margin-bottom: 2rem !important;
+    border: none;
+    height: 2px;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--steel-border) 0px, var(--steel-border) 10px,
+        transparent 10px, transparent 20px
+    );
+    margin: 1.6rem 0;
 }
 
-
-/* =========================================================
-   METRIC CARDS
-   ========================================================= */
-
-[data-testid="stMetric"] {
-    background: #0a1625;
-    border: 1px solid #1c4059;
-    border-radius: 8px;
-    padding: 1.25rem 1.35rem;
-    min-height: 125px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-[data-testid="stMetricLabel"] {
-    color: #72dfff !important;
-    font-size: 0.70rem !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-}
-
-[data-testid="stMetricValue"] {
-    color: #ffffff !important;
-    font-size: 2rem !important;
-    font-weight: 800 !important;
-}
-
-
-/* =========================================================
-   MODULE CARDS
-   ========================================================= */
-
-[data-testid="stVerticalBlockBorderWrapper"] {
-    background: #0a1625;
-    border: 1px solid #1c4059;
-    border-radius: 8px;
-    padding: 1.35rem !important;
-    min-height: 245px;
-    box-sizing: border-box;
-}
-
-
-/* Module card hover */
-
-[data-testid="stVerticalBlockBorderWrapper"]:hover {
-    background: #0d1d30;
-    border-color: #2ed7ff;
-}
-
-
-/* =========================================================
-   MODULE CARD HEADINGS
-   ========================================================= */
-
-[data-testid="stVerticalBlockBorderWrapper"] h3 {
-    color: #ffffff !important;
-    margin-top: 0.25rem !important;
-    margin-bottom: 0.65rem !important;
-}
-
-
-/* =========================================================
-   BUTTONS
-   ========================================================= */
-
-.stButton {
-    margin-top: 0.6rem;
-}
-
+/* ---------- buttons ---------- */
 .stButton > button {
-    width: 100%;
-    min-height: 44px;
-
-    background: #ff8a00 !important;
-    color: #07111d !important;
-
-    border: 1px solid #ffb347 !important;
-    border-radius: 6px;
-
-    font-size: 0.88rem;
-    font-weight: 800;
-
-    letter-spacing: 0.03em;
-
-    transition:
-        background 0.18s ease,
-        border-color 0.18s ease,
-        transform 0.18s ease;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    border-radius: 2px;
+    border: 1px solid var(--steel-border);
+    background-color: var(--steel-panel);
+    color: var(--text-primary);
+    padding: 0.6em 1.2em;
+    transition: all 0.15s ease-in-out;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
 }
-
-
-/* Button hover */
 
 .stButton > button:hover {
-    background: #ffad33 !important;
-    border-color: #ffd080 !important;
-    color: #050b14 !important;
-    transform: translateY(-1px);
+    background-color: var(--steel-panel-hover);
+    border-color: var(--safety-yellow);
+    color: var(--safety-yellow);
 }
-
-
-/* Button press */
-
-.stButton > button:active {
-    transform: translateY(0);
-}
-
-
-/* =========================================================
-   PRIMARY BUTTON
-   ========================================================= */
 
 .stButton > button[kind="primary"] {
-    background: #00b8e6 !important;
-    color: #03101a !important;
-    border-color: #4be3ff !important;
+    background-color: var(--rust-orange);
+    border: 1px solid var(--rust-orange);
+    color: #1a1d21;
 }
 
 .stButton > button[kind="primary"]:hover {
-    background: #35d9ff !important;
-    border-color: #9af1ff !important;
+    background-color: var(--safety-yellow);
+    border-color: var(--safety-yellow);
+    color: #1a1d21;
 }
 
-
-/* =========================================================
-   ALERT / INFO
-   ========================================================= */
-
-[data-testid="stAlert"] {
-    background: #0a1b2d;
-    border: 1px solid #24506b;
-    border-radius: 7px;
-    color: #d9f5ff !important;
+/* ---------- bordered containers -> riveted steel panels ---------- */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    position: relative;
 }
 
-[data-testid="stAlert"] p {
-    color: #d9f5ff !important;
+div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlockBorderWrapper"] {
+    background-color: var(--steel-panel);
+    border: 1px solid var(--steel-border) !important;
+    border-radius: 3px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.03);
+    padding: 4px;
+    transition: border-color 0.15s ease-in-out;
 }
 
-
-/* =========================================================
-   SIDEBAR
-   ========================================================= */
-
-section[data-testid="stSidebar"] {
-    background: #030811;
-    border-right: 1px solid #173149;
+div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlockBorderWrapper"]:hover {
+    border-color: var(--safety-yellow) !important;
 }
 
-section[data-testid="stSidebar"] * {
-    color: #ffffff !important;
+/* rivet corners on bordered panels */
+div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlockBorderWrapper"]::before,
+div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlockBorderWrapper"]::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #6b7178, #33383e 70%);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.5);
+    z-index: 2;
+}
+div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlockBorderWrapper"]::before {
+    top: 8px;
+    left: 8px;
+}
+div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlockBorderWrapper"]::after {
+    bottom: 8px;
+    right: 8px;
 }
 
-
-/* =========================================================
-   INPUTS
-   ========================================================= */
-
-input,
-textarea {
-    background: #07111d !important;
-    color: #ffffff !important;
-    border: 1px solid #1c4059 !important;
+/* ---------- metrics -> gauge readouts ---------- */
+[data-testid="stMetric"] {
+    background-color: #1e2226;
+    border: 1px solid var(--steel-border);
+    border-radius: 2px;
+    padding: 0.6rem 0.8rem;
 }
 
-input::placeholder,
-textarea::placeholder {
-    color: #7fdcf3 !important;
-}
-
-input:focus,
-textarea:focus {
-    border-color: #24d5ff !important;
-    box-shadow: 0 0 0 1px #24d5ff !important;
-}
-
-
-/* =========================================================
-   SELECT BOX
-   ========================================================= */
-
-[data-baseweb="select"] > div {
-    background: #07111d !important;
-    color: #ffffff !important;
-    border-color: #1c4059 !important;
-}
-
-
-/* =========================================================
-   LINKS
-   ========================================================= */
-
-a {
-    color: #45ddff !important;
-}
-
-
-/* =========================================================
-   CODE
-   ========================================================= */
-
-code {
-    background: #0b1c2d !important;
-    color: #62e4ff !important;
-    border: 1px solid #1b4058;
-}
-
-
-/* =========================================================
-   WORKFLOW NUMBERS
-   ========================================================= */
-
-.stMarkdown strong {
-    color: #ffffff;
-}
-
-
-/* =========================================================
-   CONSISTENT COLUMN SPACING
-   ========================================================= */
-
-[data-testid="stHorizontalBlock"] {
-    gap: 1.25rem !important;
-}
-
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-.cyber-footer {
-    text-align: center;
-    padding-top: 2rem;
-    color: #55dfff;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
+[data-testid="stMetricLabel"] {
+    font-family: 'Roboto Mono', monospace !important;
     text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.7rem !important;
+    color: var(--text-muted) !important;
 }
 
+[data-testid="stMetricValue"] {
+    font-family: 'Roboto Mono', monospace !important;
+    color: var(--safety-yellow) !important;
+    font-weight: 700 !important;
+}
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+/* ---------- alerts -> hazard-labelled status plates ---------- */
+[data-testid="stAlert"] {
+    border-radius: 2px !important;
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
 
-@media (max-width: 1000px) {
+div[data-testid="stNotificationContentError"] {
+    background-color: rgba(193, 80, 46, 0.18) !important;
+    border: 1px solid var(--rust-orange) !important;
+}
 
-    .block-container {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
+div[data-testid="stNotificationContentSuccess"] {
+    background-color: rgba(242, 183, 5, 0.12) !important;
+    border: 1px solid var(--safety-yellow) !important;
+}
 
-    h1 {
-        font-size: 2.1rem !important;
-    }
+div[data-testid="stNotificationContentWarning"] {
+    background-color: rgba(242, 183, 5, 0.10) !important;
+    border: 1px solid var(--safety-yellow) !important;
+}
 
-    h2 {
-        font-size: 1.4rem !important;
-    }
+div[data-testid="stNotificationContentInfo"] {
+    background-color: rgba(139, 145, 152, 0.12) !important;
+    border: 1px solid var(--steel-border) !important;
+}
 
-    [data-testid="stVerticalBlockBorderWrapper"] {
-        min-height: 220px;
-    }
+/* ---------- recent activity rows ---------- */
+div[data-testid="stHorizontalBlock"] {
+    border-bottom: 1px dashed var(--steel-border);
+    padding: 0.35rem 0;
 }

@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForTokenClassification
 from database import log_ner_analysis
 from database import get_connection
 from utils.navigation import analyst_navigation
-
+from utils.theme import load_theme
 # ============================================================
 # PAGE CONFIGURATION
 # ============================================================
@@ -14,7 +14,7 @@ st.set_page_config(
     page_icon="🧠",
     layout="wide",
 )
-
+load_theme()
 
 # ============================================================
 # LOGIN SESSION CHECK

@@ -28,7 +28,16 @@ css_path = (
     / "analyst_dashboard.css"
 )
 
+# NOTE: the CSS file was being located but never loaded into
+# the page. st.markdown() needs unsafe_allow_html=True or the
+# <style> tag gets escaped and printed as text instead of
+# being applied by the browser.
+if css_path.exists():
 
+    st.markdown(
+        f"<style>{css_path.read_text()}</style>",
+        unsafe_allow_html=True
+    )
 
 
 # ============================================================
@@ -570,42 +579,7 @@ with col1:
     )
 
 
-with col2:
 
-    st.write("")
-
-    if st.button(
-        "Sign Out",
-        use_container_width=True
-    ):
-
-        st.session_state[
-            "logged_in"
-        ] = False
-
-        st.session_state.pop(
-            "user_id",
-            None
-        )
-
-        st.session_state.pop(
-            "fullname",
-            None
-        )
-
-        st.session_state.pop(
-            "username",
-            None
-        )
-
-        st.session_state.pop(
-            "role",
-            None
-        )
-
-        st.switch_page(
-            "app.py"
-        )
 
 
 st.divider()

@@ -3,7 +3,7 @@ import pickle
 import re
 from urllib.parse import urlparse
 from sqlalchemy import text
-
+from utils.theme import load_theme
 from database import engine
 from utils.navigation import analyst_navigation
 
@@ -43,7 +43,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-
+load_theme()
 # ============================================================
 # CHECK LOGIN SESSION
 # ============================================================

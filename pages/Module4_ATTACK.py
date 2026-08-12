@@ -4,10 +4,13 @@ import re
 from pathlib import Path
 from datetime import datetime
 from database import get_connection
+from utils.theme import load_theme
 from utils.navigation import analyst_navigation
 # ============================================================
 # PAGE CONFIGURATION
 # ============================================================
+
+load_theme()
 
 st.set_page_config(
     page_title="CyberLens - MITRE ATT&CK Mapping",

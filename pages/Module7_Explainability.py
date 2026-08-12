@@ -5,6 +5,7 @@ import re
 import ast
 from datetime import datetime
 from utils.navigation import analyst_navigation
+from utils.theme import load_theme
 # ============================================================
 # PAGE CONFIGURATION
 # ============================================================
@@ -34,6 +35,8 @@ user_id = st.session_state.get("user_id")
 if not user_id:
     st.warning("User session not found. Please log in again.")
     st.stop()
+
+load_theme()
 
 analyst_navigation(
     active_page="threat"

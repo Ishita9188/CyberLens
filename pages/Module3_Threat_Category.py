@@ -4,6 +4,7 @@ import os
 import re
 import json
 from collections import Counter
+from utils.theme import load_theme
 from utils.navigation import analyst_navigation
 # ============================================================
 # PAGE CONFIGURATION
@@ -15,6 +16,8 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
+
+load_theme()
 
 # ============================================================
 # MODEL PATH

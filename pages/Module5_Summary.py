@@ -4,6 +4,9 @@ from collections import Counter
 from datetime import datetime
 from utils.navigation import analyst_navigation
 import torch
+from utils.theme import load_theme
+
+load_theme()
 
 # ============================================================
 # CYBERLENS - MODULE 5
