@@ -5,21 +5,12 @@ from database import log_ner_analysis
 from database import get_connection
 from utils.navigation import analyst_navigation
 from utils.theme import load_theme
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
-
 st.set_page_config(
     page_title="CyberLens - Cyber Threat NER",
     page_icon="🧠",
     layout="wide",
 )
 load_theme()
-
-# ============================================================
-# LOGIN SESSION CHECK
-# ============================================================
-
 if not st.session_state.get("logged_in", False):
     st.warning("Please login to access CyberLens.")
     
@@ -31,17 +22,7 @@ if not st.session_state.get("logged_in", False):
 analyst_navigation(
     active_page="threat"
 )
-# ============================================================
-# MODEL PATH
-# ============================================================
-
 MODEL_PATH = r"D:\Semester5\NLP\CyberLens\models\cyberlens_ner"
-
-
-# ============================================================
-# LOAD NER MODEL
-# ============================================================
-
 @st.cache_resource
 def load_ner_model():
 
@@ -63,12 +44,6 @@ def load_ner_model():
     model.eval()
 
     return tokenizer, model, device
-
-
-# ============================================================
-# LOAD MODEL SAFELY
-# ============================================================
-
 try:
 
     tokenizer, model, device = load_ner_model()
@@ -86,12 +61,6 @@ except Exception as e:
     st.error(str(e))
 
     st.stop()
-
-
-# ============================================================
-# HEADER
-# ============================================================
-
 st.title("🧠 Cyber Threat Entity Extraction")
 
 st.write(
@@ -102,12 +71,6 @@ st.write(
 )
 
 st.divider()
-
-
-# ============================================================
-# MODEL INFORMATION
-# ============================================================
-
 st.subheader("Model Information")
 
 col1, col2, col3 = st.columns(3)
@@ -129,14 +92,7 @@ with col3:
         "Device",
         str(device)
     )
-
 st.divider()
-
-
-# ============================================================
-# INPUT
-# ============================================================
-
 st.subheader("Enter Threat Report")
 
 threat_text = st.text_area(
@@ -149,12 +105,6 @@ threat_text = st.text_area(
         "in Ukraine and exploited a known vulnerability."
     )
 )
-
-
-# ============================================================
-# ENTITY EXTRACTION FUNCTION
-# ============================================================
-
 def extract_entities(text):
 
     encoding = tokenizer(
@@ -228,11 +178,6 @@ def extract_entities(text):
                 current_entity = None
 
             continue
-
-        # ----------------------------------------------------
-        # BIO LABEL
-        # ----------------------------------------------------
-
         if label.startswith("B-"):
 
             if current_entity is not None:
@@ -290,12 +235,6 @@ def extract_entities(text):
         entities.append(current_entity)
 
     return entities
-
-
-# ============================================================
-# ANALYZE BUTTON
-# ============================================================
-
 if st.button(
     "🔍 Extract Cyber Threat Entities",
     type="primary",
@@ -309,11 +248,6 @@ if st.button(
         )
 
         st.stop()
-
-    # --------------------------------------------------------
-    # RUN MODEL
-    # --------------------------------------------------------
-
     with st.spinner(
         "Analyzing threat report..."
     ):
@@ -321,10 +255,6 @@ if st.button(
         entities = extract_entities(
             threat_text
         )
-        # ============================================================
-# LOG NER ANALYSIS
-# ============================================================
-
         user_id = st.session_state.get("user_id")
 
         if user_id:
@@ -338,13 +268,7 @@ if st.button(
             st.warning(
             "NER analysis could not be saved to the database."
         )
-
     st.divider()
-
-    # ========================================================
-    # RESULT SUMMARY
-    # ========================================================
-
     st.subheader("Detection Result")
 
     if not entities:
@@ -353,17 +277,11 @@ if st.button(
             "No cybersecurity entities were detected "
             "in the provided text."
         )
-
     else:
 
         st.success(
             f"{len(entities)} cybersecurity entities detected."
         )
-
-        # ----------------------------------------------------
-        # ENTITY TABLE
-        # ----------------------------------------------------
-
         st.subheader("Extracted Entities")
 
         entity_rows = []
@@ -383,11 +301,6 @@ if st.button(
             use_container_width=True,
             hide_index=True
         )
-
-        # ====================================================
-        # GROUP ENTITIES BY TYPE
-        # ====================================================
-
         st.divider()
 
         st.subheader(
@@ -407,7 +320,6 @@ if st.button(
                 grouped_entities[entity_type].append(
                     entity["text"]
                 )
-
         for entity_type in sorted(
             grouped_entities.keys()
         ):
@@ -424,15 +336,9 @@ if st.button(
                     f"- {value}"
                 )
     user_id = st.session_state.get("user_id")
-
     if user_id:
         log_ner_analysis(
         user_id,
         threat_text,
         entities
         )   
-
-
-
-
-

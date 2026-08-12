@@ -6,10 +6,6 @@ import json
 from collections import Counter
 from utils.theme import load_theme
 from utils.navigation import analyst_navigation
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
-
 st.set_page_config(
     page_title="CyberLens - Threat Category",
     page_icon="🛡️",
@@ -18,17 +14,7 @@ st.set_page_config(
 )
 
 load_theme()
-
-# ============================================================
-# MODEL PATH
-# ============================================================
-
 MODEL_PATH = r"D:\Semester5\NLP\CyberLens\static\model\threat_category\threat_category_model.pkl"
-
-# ============================================================
-# LOGIN CHECK
-# ============================================================
-
 if not st.session_state.get("logged_in", False):
     st.error("Please login to access Threat Category Analysis.")
     st.stop()
@@ -41,11 +27,6 @@ fullname = st.session_state.get("fullname", "User")
 if user_id is None:
     st.error("User ID not found in the current session.")
     st.stop()
-
-# ============================================================
-# LOAD MODEL
-# ============================================================
-
 @st.cache_resource
 def load_model_package():
 
@@ -77,11 +58,6 @@ except Exception as e:
 
     st.error(f"Unable to load threat category model: {e}")
     st.stop()
-
-# ============================================================
-# EXTRACT MODEL FROM PACKAGE
-# ============================================================
-
 if isinstance(model_package, dict):
 
     if "model" not in model_package:
@@ -136,8 +112,6 @@ if isinstance(model_package, dict):
     )
 
 else:
-
-    # Fallback in case a pipeline itself was saved
     model = model_package
 
     categories = []
@@ -149,12 +123,6 @@ else:
     model_precision = None
     model_recall = None
     model_f1 = None
-
-
-# ============================================================
-# KEYWORD EXTRACTION
-# ============================================================
-
 CYBER_KEYWORDS = [
 
     "malware",
@@ -232,12 +200,6 @@ def extract_keywords(text):
             found.append(keyword)
 
     return list(dict.fromkeys(found))
-
-
-# ============================================================
-# TEXT STATISTICS
-# ============================================================
-
 def analyze_text(text):
 
     words = re.findall(
@@ -634,11 +596,6 @@ if st.button(
     else:
 
         probabilities_text = None
-
-    # ========================================================
-    # RESULT
-    # ========================================================
-
     st.divider()
 
     st.subheader("Detection Result")
@@ -659,14 +616,6 @@ if st.button(
                 "Model Confidence",
                 f"{confidence * 100:.2f}%"
             )
-
-        
-
-
-    # ========================================================
-    # TEXT ANALYSIS
-    # ========================================================
-
     st.divider()
 
     st.subheader("Threat Text Analysis")
@@ -692,11 +641,6 @@ if st.button(
         "Detected Keywords",
         len(detected_keywords)
     )
-
-    # ========================================================
-    # CYBERSECURITY KEYWORDS
-    # ========================================================
-
     st.divider()
 
     st.subheader(
@@ -730,11 +674,6 @@ if st.button(
             "No predefined cybersecurity keywords "
             "were detected."
         )
-
-    # ========================================================
-    # THREAT TEXT
-    # ========================================================
-
     st.divider()
 
     st.subheader(
@@ -748,11 +687,6 @@ if st.button(
         st.write(
             threat_text
         )
-
-    # ========================================================
-    # DATABASE LOGGING
-    # ========================================================
-
     success, logging_error = (
         log_threat_category_analysis(
             user_id=user_id,

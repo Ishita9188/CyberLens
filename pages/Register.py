@@ -1,24 +1,10 @@
 import streamlit as st
 from auth import register_user
-
-
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
-
 st.set_page_config(
     page_title="CyberLens - Registration",
     page_icon="🛡️",
     layout="centered"
 )
-
-
-# ============================================================
-# INDUSTRIAL THEME — injected as global CSS
-# IMPORTANT: unsafe_allow_html=True is required or Streamlit
-# will render the <style> block as plain escaped text instead
-# of applying it.
-# ============================================================
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Condensed:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap');
@@ -301,10 +287,6 @@ div[data-testid="stNotificationContentSuccess"] {
 """, unsafe_allow_html=True)
 
 
-# ============================================================
-# HEADER
-# ============================================================
-
 st.caption("CYBERLENS  /  ACCOUNT REGISTRATION")
 
 st.title("Create your CyberLens account")
@@ -312,12 +294,6 @@ st.title("Create your CyberLens account")
 st.write(
     "Register to access the CyberLens cyber intelligence platform."
 )
-
-
-# ============================================================
-# REGISTRATION FORM
-# ============================================================
-
 fullname = st.text_input(
     "Full Name",
     placeholder="Enter your full name"
@@ -356,11 +332,6 @@ confirm_password = st.text_input(
     placeholder="Re-enter your password"
 )
 
-
-# ============================================================
-# REGISTER
-# ============================================================
-
 st.write("")
 
 if st.button(
@@ -368,15 +339,11 @@ if st.button(
     type="primary",
     use_container_width=True
 ):
-
-    # Check required fields
     if not fullname or not email or not username or not password:
 
         st.error(
             "Please fill in all required fields."
         )
-
-    # Check password confirmation
     elif password != confirm_password:
 
         st.error(
@@ -410,17 +377,10 @@ if st.button(
         else:
 
             st.error(message)
-
-
-# ============================================================
-# LOGIN LINK
-# ============================================================
-
 st.divider()
 
 if st.button(
     "Already have an account?  Sign In",
     use_container_width=True
 ):
-
     st.switch_page("pages/Login.py")

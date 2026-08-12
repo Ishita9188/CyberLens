@@ -5,14 +5,7 @@ from datetime import datetime
 from utils.navigation import analyst_navigation
 import torch
 from utils.theme import load_theme
-
 load_theme()
-
-# ============================================================
-# CYBERLENS - MODULE 5
-# THREAT INTELLIGENCE SUMMARIZATION
-# ============================================================
-
 st.set_page_config(
     page_title="CyberLens - Threat Summarization",
     page_icon="🛡️",
@@ -31,16 +24,7 @@ st.caption(
     "Generate a concise threat summary and identify cybersecurity-specific "
     "terms, indicators, actors and attack-related concepts."
 )
-
-
-# ============================================================
-# CYBERSECURITY VOCABULARY
-# ============================================================
-
 CYBERSECURITY_TERMS = {
-    # --------------------------------------------------------
-    # Threats / Attacks
-    # --------------------------------------------------------
     "malware",
     "ransomware",
     "spyware",
@@ -76,10 +60,6 @@ CYBERSECURITY_TERMS = {
     "data breach",
     "account takeover",
     "insider threat",
-
-    # --------------------------------------------------------
-    # Vulnerabilities / Exploitation
-    # --------------------------------------------------------
     "vulnerability",
     "vulnerabilities",
     "exploit",
@@ -97,10 +77,6 @@ CYBERSECURITY_TERMS = {
     "cross-site scripting",
     "path traversal",
     "authentication bypass",
-
-    # --------------------------------------------------------
-    # Credentials / Authentication
-    # --------------------------------------------------------
     "credential",
     "credentials",
     "credential theft",
@@ -119,10 +95,6 @@ CYBERSECURITY_TERMS = {
     "secret",
     "identity",
     "identity theft",
-
-    # --------------------------------------------------------
-    # Network
-    # --------------------------------------------------------
     "network",
     "firewall",
     "proxy",
@@ -142,10 +114,6 @@ CYBERSECURITY_TERMS = {
     "command and control",
     "c&c",
     "beacon",
-
-    # --------------------------------------------------------
-    # Malware Behaviour
-    # --------------------------------------------------------
     "payload",
     "dropper",
     "loader",
@@ -165,10 +133,6 @@ CYBERSECURITY_TERMS = {
     "powershell script",
     "wmi",
     "windows management instrumentation",
-
-    # --------------------------------------------------------
-    # Data / Objectives
-    # --------------------------------------------------------
     "data theft",
     "data exfiltration",
     "exfiltration",
@@ -179,10 +143,6 @@ CYBERSECURITY_TERMS = {
     "information theft",
     "surveillance",
     "espionage",
-
-    # --------------------------------------------------------
-    # Email / Phishing
-    # --------------------------------------------------------
     "malicious email",
     "phishing email",
     "malicious link",
@@ -196,10 +156,6 @@ CYBERSECURITY_TERMS = {
     "dkim",
     "dmarc",
     "mx record",
-
-    # --------------------------------------------------------
-    # Security Infrastructure
-    # --------------------------------------------------------
     "endpoint",
     "server",
     "workstation",
@@ -217,10 +173,6 @@ CYBERSECURITY_TERMS = {
     "incident response",
     "forensics",
     "security monitoring",
-
-    # --------------------------------------------------------
-    # Indicators of Compromise
-    # --------------------------------------------------------
     "ioc",
     "indicator of compromise",
     "indicators of compromise",
@@ -236,10 +188,6 @@ CYBERSECURITY_TERMS = {
     "malicious url",
     "email address",
     "filename",
-
-    # --------------------------------------------------------
-    # Threat Actors / Groups
-    # --------------------------------------------------------
     "apt",
     "apt28",
     "apt29",
@@ -252,10 +200,6 @@ CYBERSECURITY_TERMS = {
     "bronze butler",
     "threat actor",
     "attack group",
-
-    # --------------------------------------------------------
-    # CTI / ATT&CK
-    # --------------------------------------------------------
     "tactic",
     "technique",
     "procedure",
@@ -266,10 +210,6 @@ CYBERSECURITY_TERMS = {
     "campaign",
     "operation",
     "threat campaign",
-
-    # --------------------------------------------------------
-    # General Cybersecurity Language
-    # --------------------------------------------------------
     "compromised",
     "infected",
     "malicious",
@@ -286,12 +226,6 @@ CYBERSECURITY_TERMS = {
     "security update",
     "security patch"
 }
-
-
-# ============================================================
-# THREAT ACTOR VOCABULARY
-# ============================================================
-
 THREAT_ACTOR_TERMS = {
     "apt28",
     "apt29",
@@ -305,12 +239,6 @@ THREAT_ACTOR_TERMS = {
     "threat actor",
     "threat actors"
 }
-
-
-# ============================================================
-# ATTACK / TECHNIQUE TERMS
-# ============================================================
-
 ATTACK_TERMS = {
     "phishing",
     "spear-phishing",
@@ -348,12 +276,6 @@ ATTACK_TERMS = {
     "powershell",
     "scheduled task"
 }
-
-
-# ============================================================
-# IOC EXTRACTION
-# ============================================================
-
 def extract_iocs(text):
 
     iocs = {
@@ -404,20 +326,11 @@ def extract_iocs(text):
 
     return iocs
 
-
-# ============================================================
-# CYBERSECURITY TERM EXTRACTION
-# ============================================================
-
 def extract_cybersecurity_terms(text):
 
     text_lower = text.lower()
 
     found = []
-
-    # Longest phrases first.
-    # This prevents "credential" from being preferred
-    # over "credential theft", for example.
     sorted_terms = sorted(
         CYBERSECURITY_TERMS,
         key=len,
@@ -432,11 +345,6 @@ def extract_cybersecurity_terms(text):
             found.append(term)
 
     return found
-
-
-# ============================================================
-# THREAT ACTOR EXTRACTION
-# ============================================================
 
 def extract_threat_actors(text):
 
@@ -456,12 +364,6 @@ def extract_threat_actors(text):
             found.append(actor)
 
     return found
-
-
-# ============================================================
-# ATTACK TECHNIQUE EXTRACTION
-# ============================================================
-
 def extract_attack_terms(text):
 
     text_lower = text.lower()
@@ -480,12 +382,6 @@ def extract_attack_terms(text):
             found.append(term)
 
     return found
-
-
-# ============================================================
-# KEYWORD FREQUENCY
-# ============================================================
-
 def get_keyword_frequency(text):
 
     text_lower = text.lower()
@@ -502,16 +398,6 @@ def get_keyword_frequency(text):
             counts[term] = len(matches)
 
     return counts.most_common(15)
-
-
-# ============================================================
-# SUMMARIZATION MODEL
-# ============================================================
-
-# ============================================================
-# SUMMARIZATION MODEL
-# ============================================================
-
 @st.cache_resource
 def load_summarization_model():
 
@@ -758,16 +644,6 @@ def extract_cybersecurity_keywords(text):
     found = list(dict.fromkeys(found))
 
     return found
-
-
-# ============================================================
-# SUMMARIZE THREAT REPORT
-# ============================================================
-
-# ============================================================
-# CYBERLENS - IMPROVED THREAT SUMMARIZATION
-# ============================================================
-
 def summarize_threat(text, tokenizer, model, device):
 
     if tokenizer is None or model is None:
@@ -780,11 +656,6 @@ def summarize_threat(text, tokenizer, model, device):
 
         import re
         import torch
-
-        # ====================================================
-        # CYBERSECURITY TERMS
-        # ====================================================
-
         cybersecurity_terms = [
 
             # Threats
@@ -866,11 +737,6 @@ def summarize_threat(text, tokenizer, model, device):
             "EDR",
             "SIEM"
         ]
-
-        # ====================================================
-        # SENTENCE SPLITTING
-        # ====================================================
-
         # Normalize whitespace
         clean_text = re.sub(
             r"\s+",
@@ -889,11 +755,6 @@ def summarize_threat(text, tokenizer, model, device):
             for s in sentences
             if len(s.strip()) > 30
         ]
-
-        # ====================================================
-        # IDENTIFY IMPORTANT CYBERSECURITY SENTENCES
-        # ====================================================
-
         important_sentences = []
 
         for sentence in sentences:
@@ -907,15 +768,9 @@ def summarize_threat(text, tokenizer, model, device):
                 if term.lower() in sentence_lower:
 
                     matched_terms.append(term)
-
-            # Score sentence based on cybersecurity relevance
             score = len(
                 set(matched_terms)
             )
-
-            # Give extra importance to attack/mitigation
-            # related sentences
-
             high_priority_terms = [
                 "attack",
                 "phishing",
@@ -944,11 +799,6 @@ def summarize_threat(text, tokenizer, model, device):
                 important_sentences.append(
                     (score, sentence)
                 )
-
-        # ====================================================
-        # SORT BY CYBERSECURITY RELEVANCE
-        # ====================================================
-
         important_sentences.sort(
             key=lambda x: x[0],
             reverse=True
@@ -967,11 +817,6 @@ def summarize_threat(text, tokenizer, model, device):
 
             if len(selected_sentences) >= 6:
                 break
-
-        # ====================================================
-        # GENERATE BART SUMMARY
-        # ====================================================
-
         words = clean_text.split()
 
         # DistilBART input limitation
@@ -1046,11 +891,6 @@ def summarize_threat(text, tokenizer, model, device):
                 st.warning(
                     f"Could not summarize one section: {e}"
                 )
-
-        # ====================================================
-        # CHECK BART RESULT
-        # ====================================================
-
         if not bart_summaries:
 
             bart_summary = ""
@@ -1060,11 +900,6 @@ def summarize_threat(text, tokenizer, model, device):
             bart_summary = " ".join(
                 bart_summaries
             )
-
-        # ====================================================
-        # EXTRACT CYBERSECURITY TERMS PRESENT
-        # ====================================================
-
         detected_keywords = []
 
         text_lower = clean_text.lower()
@@ -1081,11 +916,6 @@ def summarize_threat(text, tokenizer, model, device):
                 detected_keywords
             )
         )
-
-        # ====================================================
-        # BUILD TECHNICAL CONTEXT
-        # ====================================================
-
         technical_context = ""
 
         if selected_sentences:
@@ -1093,11 +923,6 @@ def summarize_threat(text, tokenizer, model, device):
             technical_context = " ".join(
                 selected_sentences[:5]
             )
-
-        # ====================================================
-        # REMOVE SENTENCE DUPLICATES
-        # ====================================================
-
         final_parts = []
 
         if bart_summary:
@@ -1105,20 +930,11 @@ def summarize_threat(text, tokenizer, model, device):
             final_parts.append(
                 bart_summary
             )
-
-        # Add technically important information
-        # that BART may have missed
-
         if technical_context:
 
             final_parts.append(
                 technical_context
             )
-
-        # ====================================================
-        # COMBINE SUMMARY
-        # ====================================================
-
         combined_summary = " ".join(
             final_parts
         )
@@ -1129,11 +945,6 @@ def summarize_threat(text, tokenizer, model, device):
             " ",
             combined_summary
         ).strip()
-
-        # ====================================================
-        # REMOVE EXACT DUPLICATE SENTENCES
-        # ====================================================
-
         final_sentences = re.split(
             r"(?<=[.!?])\s+",
             combined_summary
@@ -1161,11 +972,6 @@ def summarize_threat(text, tokenizer, model, device):
         combined_summary = " ".join(
             unique_sentences
         )
-
-        # ====================================================
-        # RETURN RESULTS
-        # ====================================================
-
         return {
 
             "summary": combined_summary,

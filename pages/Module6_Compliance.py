@@ -13,10 +13,6 @@ from datetime import datetime
 from sqlalchemy import text
 from utils.navigation import analyst_navigation
 from utils.theme import load_theme
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
-
 load_theme()
 
 st.set_page_config(
@@ -24,23 +20,11 @@ st.set_page_config(
     page_icon="⚖️",
     layout="wide"
 )
-
-
-# ============================================================
-# DATABASE
-# ============================================================
-
 try:
     from database import get_connection
 except Exception as e:
     st.error(f"Unable to import database connection: {e}")
     st.stop()
-
-
-# ============================================================
-# SESSION / USER
-# ============================================================
-
 user_id = st.session_state.get("user_id")
 
 if not user_id:
@@ -52,10 +36,6 @@ if not user_id:
 analyst_navigation(
     active_page="threat"
 )
-# ============================================================
-# KNOWLEDGE BASE PATH
-# ============================================================
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 KNOWLEDGE_BASE_PATH = (
@@ -64,12 +44,6 @@ KNOWLEDGE_BASE_PATH = (
     / "compliance"
     / "compliance_knowledge_base.csv"
 )
-
-
-# ============================================================
-# TITLE
-# ============================================================
-
 st.title("⚖️ CyberLens - Compliance Analysis")
 
 st.markdown(
@@ -80,12 +54,6 @@ st.markdown(
     CyberLens Compliance Knowledge Base.
     """
 )
-
-
-# ============================================================
-# LOAD COMPLIANCE KNOWLEDGE BASE
-# ============================================================
-
 @st.cache_data
 def load_knowledge_base():
 
@@ -128,12 +96,6 @@ if knowledge_base is None:
     )
 
     st.stop()
-
-
-# ============================================================
-# KNOWLEDGE BASE INFORMATION
-# ============================================================
-
 with st.expander("📚 Compliance Knowledge Base", expanded=False):
 
     col1, col2, col3 = st.columns(3)
@@ -181,11 +143,6 @@ with st.expander("📚 Compliance Knowledge Base", expanded=False):
 
         st.write(", ".join(frameworks))
 
-
-# ============================================================
-# DATABASE HELPERS
-# ============================================================
-
 def get_connection_safe():
 
     """
@@ -199,12 +156,6 @@ def get_connection_safe():
     """
 
     return get_connection()
-
-
-# ============================================================
-# CHECK TABLE EXISTS
-# ============================================================
-
 def table_exists(connection, table_name):
 
     query = text(
@@ -224,12 +175,6 @@ def table_exists(connection, table_name):
     )
 
     return bool(result.scalar())
-
-
-# ============================================================
-# GET TABLE COLUMNS
-# ============================================================
-
 def get_table_columns(connection, table_name):
 
     query = text(
@@ -251,12 +196,6 @@ def get_table_columns(connection, table_name):
         row[0]
         for row in result.fetchall()
     ]
-
-
-# ============================================================
-# FIND BEST TEXT COLUMN
-# ============================================================
-
 def find_text_column(columns):
 
     preferred_columns = [
@@ -310,12 +249,6 @@ def find_text_column(columns):
         return text_candidates[0]
 
     return None
-
-
-# ============================================================
-# RETRIEVE ANALYSES
-# ============================================================
-
 def retrieve_user_analyses(user_id):
 
     """
@@ -1183,12 +1116,6 @@ def log_compliance_analysis(
 
         except Exception:
             pass
-
-
-# ============================================================
-# RETRIEVE REPORTS
-# ============================================================
-
 if "compliance_reports" not in st.session_state:
 
     st.session_state[

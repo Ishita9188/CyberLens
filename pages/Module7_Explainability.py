@@ -6,30 +6,15 @@ import ast
 from datetime import datetime
 from utils.navigation import analyst_navigation
 from utils.theme import load_theme
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
-
 st.set_page_config(
     page_title="CyberLens | Explainable Decision Support",
     page_icon="🛡️",
     layout="wide"
 )
-
-# ============================================================
-# DATABASE
-# ============================================================
-
 try:
     from database import get_connection
 except Exception:
     get_connection = None
-
-
-# ============================================================
-# SESSION USER
-# ============================================================
-
 user_id = st.session_state.get("user_id")
 
 if not user_id:
@@ -41,11 +26,6 @@ load_theme()
 analyst_navigation(
     active_page="threat"
 )
-# ============================================================
-# DATABASE HELPER
-# Supports SQLAlchemy connections and psycopg connections
-# ============================================================
-
 def execute_query(query, params=None):
     """
     Executes SELECT queries using the existing database.py
@@ -82,10 +62,6 @@ def execute_query(query, params=None):
             columns = list(result.keys())
 
             return pd.DataFrame(rows, columns=columns), None
-
-        # ----------------------------------------------------
-        # psycopg connection
-        # ----------------------------------------------------
         if hasattr(connection, "cursor"):
 
             cursor = connection.cursor()
@@ -130,12 +106,6 @@ def execute_query(query, params=None):
                 connection.close()
         except Exception:
             pass
-
-
-# ============================================================
-# SAFE TEXT
-# ============================================================
-
 def safe_text(value):
 
     if value is None:
@@ -145,12 +115,6 @@ def safe_text(value):
         return ""
 
     return str(value)
-
-
-# ============================================================
-# FETCH LATEST ANALYSES
-# ============================================================
-
 def load_phishing_analysis():
 
     query = """
@@ -214,11 +178,6 @@ def load_summary_analysis():
         {"user_id": user_id}
     )
 
-
-# ============================================================
-# LOAD DATA
-# ============================================================
-
 phishing_df, phishing_error = load_phishing_analysis()
 
 category_df, category_error = load_threat_category()
@@ -226,12 +185,6 @@ category_df, category_error = load_threat_category()
 attack_df, attack_error = load_attack_analysis()
 
 summary_df, summary_error = load_summary_analysis()
-
-
-# ============================================================
-# LATEST RECORD
-# ============================================================
-
 def latest_record(df):
 
     if df is None:
@@ -250,24 +203,12 @@ category_record = latest_record(category_df)
 attack_record = latest_record(attack_df)
 
 summary_record = latest_record(summary_df)
-
-
-# ============================================================
-# TITLE
-# ============================================================
-
 st.title("CyberLens")
 st.subheader("Explainable Decision Support")
 
 st.caption(
     "Integrated threat reasoning and actionable security recommendations"
 )
-
-
-# ============================================================
-# DATA AVAILABILITY
-# ============================================================
-
 available_modules = 0
 
 if phishing_record is not None:

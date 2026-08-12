@@ -105,7 +105,6 @@ def initialize_organizations():
 
     with engine.begin() as connection:
 
-        # Create organizations table
         connection.execute(text("""
             CREATE TABLE IF NOT EXISTS organizations (
                 id SERIAL PRIMARY KEY,
@@ -114,7 +113,6 @@ def initialize_organizations():
             )
         """))
 
-        # Add organization_id to users
         connection.execute(text("""
             ALTER TABLE users
             ADD COLUMN IF NOT EXISTS organization_id INTEGER

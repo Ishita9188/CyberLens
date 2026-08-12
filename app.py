@@ -6,16 +6,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-
-# ============================================================
-# INDUSTRIAL THEME — injected as global CSS
-# IMPORTANT: unsafe_allow_html=True is required or Streamlit
-# will render the <style> block as plain escaped text instead
-# of applying it. This must run before any other st.* calls
-# that you want styled (Streamlit applies CSS globally once
-# it's in the DOM, but placing it first avoids any flash of
-# unstyled content).
-# ============================================================
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Condensed:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap');

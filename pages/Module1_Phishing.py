@@ -339,11 +339,6 @@ def analyze_url_heuristics(url):
 
         except ValueError:
             pass
-
-    # --------------------------------------------------------
-    # URL ENCODING / OBFUSCATION
-    # --------------------------------------------------------
-
     obfuscated_count = len(
         re.findall(
             r"%[0-9a-fA-F]{2}",
@@ -357,11 +352,6 @@ def analyze_url_heuristics(url):
             "Percent-encoded characters detected "
             f"({obfuscated_count} instances)."
         )
-
-    # --------------------------------------------------------
-    # PHISHING-RELATED KEYWORDS
-    # --------------------------------------------------------
-
     phishing_keywords = [
         "login",
         "signin",
@@ -388,11 +378,6 @@ def analyze_url_heuristics(url):
             "keywords detected: "
             + ", ".join(found_keywords)
         )
-
-    # --------------------------------------------------------
-    # PATH DEPTH
-    # --------------------------------------------------------
-
     path_depth = len([
         segment
         for segment in path.split('/')
@@ -405,11 +390,6 @@ def analyze_url_heuristics(url):
             f"Deep URL path detected "
             f"({path_depth} levels)."
         )
-
-    # --------------------------------------------------------
-    # QUERY PARAMETERS
-    # --------------------------------------------------------
-
     if query:
 
         query_params = len(
@@ -441,15 +421,6 @@ def analyze_url_heuristics(url):
 
         "positives": positives
     }
-
-
-# ============================================================
-# CREATE INTERPRETATION FOR MODULE 7
-#
-# This is stored in PostgreSQL.
-# It does NOT replace the ML model.
-# ============================================================
-
 def create_interpretation(
     prediction,
     phishing_probability,
@@ -510,12 +481,6 @@ def create_interpretation(
         "classification": classification,
         "text": interpretation
     }
-
-
-# ============================================================
-# SAVE ANALYSIS TO POSTGRESQL
-# ============================================================
-
 def save_analysis(
     user_id,
     url,
@@ -585,12 +550,6 @@ def save_analysis(
                 "interpretation": interpretation
             }
         )
-
-
-# ============================================================
-# PAGE HEADER
-# ============================================================
-
 st.title("🛡️ Phishing URL Detection")
 
 st.write(
@@ -599,23 +558,11 @@ st.write(
 )
 
 st.divider()
-
-
-# ============================================================
-# URL INPUT
-# ============================================================
-
 url_input = st.text_input(
     "Enter URL",
     placeholder="https://example.com",
     help="Enter the URL you want CyberLens to analyze."
 )
-
-
-# ============================================================
-# ANALYZE BUTTON
-# ============================================================
-
 if st.button(
     "🔍 Analyze Target URL",
     type="primary",
@@ -629,11 +576,6 @@ if st.button(
         )
 
         st.stop()
-
-    # --------------------------------------------------------
-    # NORMALIZE
-    # --------------------------------------------------------
-
     url = normalize_url(url_input)
 
     parsed = urlparse(url)
@@ -645,13 +587,6 @@ if st.button(
         )
 
         st.stop()
-
-    # --------------------------------------------------------
-    # MODEL PREDICTION
-    #
-    # THIS IS THE ONLY ML CLASSIFICATION.
-    # --------------------------------------------------------
-
     prediction = pipeline.predict([url])[0]
 
     probabilities = pipeline.predict_proba([url])[0]
@@ -671,11 +606,6 @@ if st.button(
     phishing_probability = (
         probabilities[bad_index]
     )
-
-    # --------------------------------------------------------
-    # MODEL CONFIDENCE
-    # --------------------------------------------------------
-
     if prediction == "bad":
 
         confidence = phishing_probability
@@ -683,28 +613,13 @@ if st.button(
     else:
 
         confidence = 1 - phishing_probability
-
-    # --------------------------------------------------------
-    # SUPPORTING URL ANALYSIS
-    # --------------------------------------------------------
-
     heuristics = analyze_url_heuristics(url)
-
-    # --------------------------------------------------------
-    # INTERPRETATION FOR MODULE 7
-    # --------------------------------------------------------
-
     interpretation = create_interpretation(
         prediction,
         phishing_probability,
         confidence,
         heuristics
     )
-
-    # --------------------------------------------------------
-    # SAVE TO POSTGRESQL
-    # --------------------------------------------------------
-
     try:
 
         save_analysis(
@@ -726,11 +641,6 @@ if st.button(
         st.error(
             f"Unable to save analysis: {e}"
         )
-
-    # ========================================================
-    # DETECTION RESULT
-    # ========================================================
-
     st.divider()
 
     st.subheader("Detection Result")
@@ -761,11 +671,6 @@ if st.button(
         f"Phishing Probability: "
         f"**{phishing_probability * 100:.2f}%**"
     )
-
-    # ========================================================
-    # URL OVERVIEW
-    # ========================================================
-
     st.divider()
 
     st.subheader("URL Analysis")
@@ -793,11 +698,6 @@ if st.button(
         if heuristics["is_https"]
         else "No"
     )
-
-    # ========================================================
-    # SUPPORTING INDICATORS
-    # ========================================================
-
     st.divider()
 
     col1, col2 = st.columns(2)
@@ -841,11 +741,6 @@ if st.button(
             st.write(
                 "No additional positive indicators recorded."
             )
-
-    # ========================================================
-    # SAVE STATUS
-    # ========================================================
-
     if analysis_saved:
 
         st.caption(

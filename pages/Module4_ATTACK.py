@@ -6,10 +6,6 @@ from datetime import datetime
 from database import get_connection
 from utils.theme import load_theme
 from utils.navigation import analyst_navigation
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
-
 load_theme()
 
 st.set_page_config(
@@ -18,11 +14,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-
-# ============================================================
-# LOGIN CHECK
-# ============================================================
-
 if not st.session_state.get("logged_in", False):
     st.error("Please login to access CyberLens.")
     st.stop()
@@ -30,11 +21,6 @@ analyst_navigation(
     active_page="threat"
 )
 USER_ID = st.session_state.get("user_id")
-
-# ============================================================
-# PATHS
-# ============================================================
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 ATTACK_PATH = (
@@ -43,11 +29,6 @@ ATTACK_PATH = (
     / "attack"
     / "enterprise-attack.json"
 )
-
-# ============================================================
-# LOAD MITRE ATT&CK DATA
-# ============================================================
-
 @st.cache_resource
 def load_attack_data():
 
@@ -86,12 +67,6 @@ except Exception as e:
     )
 
     st.stop()
-
-
-# ============================================================
-# EXTRACT ATT&CK OBJECTS
-# ============================================================
-
 attack_objects = attack_data.get("objects", [])
 
 techniques = []
@@ -130,12 +105,6 @@ for obj in attack_objects:
     elif obj_type == "malware":
 
         software.append(obj)
-
-
-# ============================================================
-# BUILD TECHNIQUE INDEX
-# ============================================================
-
 technique_index = {}
 
 for technique in techniques:
@@ -146,12 +115,6 @@ for technique in techniques:
     ).lower()
 
     technique_index[name] = technique
-
-
-# ============================================================
-# HELPER FUNCTIONS
-# ============================================================
-
 def get_attack_id(technique):
 
     external_refs = technique.get(
@@ -234,12 +197,6 @@ def normalize_text(text):
     )
 
     return text.strip()
-
-
-# ============================================================
-# KEYWORD EXTRACTION
-# ============================================================
-
 CYBER_KEYWORDS = {
 
     "powershell",
@@ -308,12 +265,6 @@ def extract_keywords(text):
         key=len,
         reverse=True
     )
-
-
-# ============================================================
-# TECHNIQUE MATCHING
-# ============================================================
-
 def calculate_match_score(
     technique,
     text,
@@ -332,11 +283,6 @@ def calculate_match_score(
 
     score = 0
     evidence = []
-
-    # --------------------------------------------------------
-    # Exact technique name
-    # --------------------------------------------------------
-
     if technique_name and technique_name in normalized_text:
 
         score += 60
@@ -344,11 +290,6 @@ def calculate_match_score(
         evidence.append(
             f"Technique name '{technique.get('name')}' appears in the report."
         )
-
-    # --------------------------------------------------------
-    # Individual words from technique name
-    # --------------------------------------------------------
-
     technique_words = [
         word
         for word in technique_name.split()
@@ -374,11 +315,6 @@ def calculate_match_score(
             "Technique-related terms found: "
             + ", ".join(matched_words)
         )
-
-    # --------------------------------------------------------
-    # Cybersecurity keyword overlap
-    # --------------------------------------------------------
-
     technique_description_words = set(
         description.split()
     )
@@ -411,19 +347,12 @@ def calculate_match_score(
                 keyword_matches[:5]
             )
         )
-
-    # --------------------------------------------------------
-    # Cap score
-    # --------------------------------------------------------
-
     score = min(
         score,
         100
     )
 
     return score, evidence
-
-
 def find_matching_techniques(
     text,
     max_results=8

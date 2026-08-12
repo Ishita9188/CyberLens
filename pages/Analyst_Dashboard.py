@@ -1,49 +1,24 @@
 import streamlit as st
 from pathlib import Path
-
 from sqlalchemy import text
-
 from database import get_connection
-
-
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
-
 st.set_page_config(
     page_title="CyberLens - Analyst Dashboard",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-
-
-# ============================================================
-# DASHBOARD CSS
-# ============================================================
-
 css_path = (
     Path(__file__).parent.parent
     / "assets"
     / "analyst_dashboard.css"
 )
-
-# NOTE: the CSS file was being located but never loaded into
-# the page. st.markdown() needs unsafe_allow_html=True or the
-# <style> tag gets escaped and printed as text instead of
-# being applied by the browser.
 if css_path.exists():
 
     st.markdown(
         f"<style>{css_path.read_text()}</style>",
         unsafe_allow_html=True
     )
-
-
-# ============================================================
-# SESSION CHECK
-# ============================================================
-
 if not st.session_state.get("logged_in", False):
 
     st.warning(
@@ -57,12 +32,6 @@ if not st.session_state.get("logged_in", False):
         st.switch_page("pages/Login.py")
 
     st.stop()
-
-
-# ============================================================
-# NAVIGATION
-# ============================================================
-
 try:
 
     from utils.navigation import analyst_navigation
@@ -73,12 +42,6 @@ try:
 
 except Exception:
     pass
-
-
-# ============================================================
-# USER INFORMATION
-# ============================================================
-
 fullname = st.session_state.get(
     "fullname",
     "User"
@@ -93,12 +56,6 @@ role = st.session_state.get(
     "role",
     "Cybersecurity Analyst"
 )
-
-
-# ============================================================
-# DATABASE HELPERS
-# ============================================================
-
 def get_table_count(conn, table_name):
     """
     Return total number of rows in a PostgreSQL table.
@@ -295,10 +252,6 @@ def get_recent_activity(conn, limit=10):
             if not columns:
                 continue
 
-            # ------------------------------------------------
-            # Find a useful timestamp column
-            # ------------------------------------------------
-
             timestamp_column = None
 
             for candidate in [
@@ -312,10 +265,6 @@ def get_recent_activity(conn, limit=10):
                     timestamp_column = candidate
                     break
 
-            # ------------------------------------------------
-            # Find user column
-            # ------------------------------------------------
-
             user_column = None
 
             for candidate in [
@@ -327,10 +276,6 @@ def get_recent_activity(conn, limit=10):
                 if candidate in columns:
                     user_column = candidate
                     break
-
-            # ------------------------------------------------
-            # Build query
-            # ------------------------------------------------
 
             if timestamp_column:
 
@@ -391,8 +336,6 @@ def get_recent_activity(conn, limit=10):
         except Exception:
             continue
 
-    # Newest first where timestamps are available
-
     try:
 
         activities.sort(
@@ -408,23 +351,12 @@ def get_recent_activity(conn, limit=10):
         pass
 
     return activities[:limit]
-
-
-# ============================================================
-# LOAD DASHBOARD DATA
-# ============================================================
-
 @st.cache_data(ttl=15)
 def load_dashboard_data():
 
     try:
 
         with get_connection() as conn:
-
-            # ------------------------------------------------
-            # EXISTING ANALYSIS TABLES
-            # ------------------------------------------------
-
             tables = [
                 "phishing_analysis",
                 "ner_analysis",
@@ -446,38 +378,15 @@ def load_dashboard_data():
                     )
                 )
 
-            # ------------------------------------------------
-            # TOTAL MODULE ANALYSES
-            # ------------------------------------------------
-
             total_analyses = sum(
                 table_counts.values()
             )
-
-            # ------------------------------------------------
-            # REPORTS ANALYZED
-            #
-            # Summary reports are the main report-level
-            # analysis source.
-            # ------------------------------------------------
-
             reports_analyzed = (
                 table_counts.get(
                     "summary_analysis",
                     0
                 )
             )
-
-            # ------------------------------------------------
-            # THREAT DETECTIONS
-            #
-            # Phishing analyses represent explicit
-            # detection events.
-            #
-            # We also include explainability decisions
-            # because those are final risk assessments.
-            # ------------------------------------------------
-
             threats_detected = (
                 table_counts.get(
                     "phishing_analysis",
@@ -489,19 +398,9 @@ def load_dashboard_data():
                     0
                 )
             )
-
-            # ------------------------------------------------
-            # HIGH-RISK FINDINGS
-            # ------------------------------------------------
-
             high_risk = get_high_risk_count(
                 conn
             )
-
-            # ------------------------------------------------
-            # RECENT HISTORY
-            # ------------------------------------------------
-
             recent_activity = get_recent_activity(
                 conn,
                 limit=15
@@ -527,19 +426,7 @@ def load_dashboard_data():
             "table_counts": {},
             "recent_activity": []
         }
-
-
-# ============================================================
-# LOAD DATA
-# ============================================================
-
 dashboard_data = load_dashboard_data()
-
-
-# ============================================================
-# DATABASE ERROR
-# ============================================================
-
 if "error" in dashboard_data:
 
     st.error(
@@ -550,12 +437,6 @@ if "error" in dashboard_data:
         f"Database details: "
         f"{dashboard_data['error']}"
     )
-
-
-# ============================================================
-# HEADER
-# ============================================================
-
 st.caption(
     "CYBERLENS  /  ANALYST OPERATIONS"
 )
@@ -577,17 +458,7 @@ with col1:
     st.caption(
         f"Signed in as {role}  •  @{username}"
     )
-
-
-
-
-
 st.divider()
-
-
-# ============================================================
-# OPERATIONS OVERVIEW
-# ============================================================
 
 st.caption(
     "OPERATIONS OVERVIEW"
@@ -605,12 +476,6 @@ st.write(
 )
 
 st.write("")
-
-
-# ============================================================
-# QUICK STATISTICS
-# ============================================================
-
 col1, col2, col3, col4 = st.columns(4)
 
 
@@ -624,8 +489,6 @@ with col1:
             "CyberLens module tables."
         )
     )
-
-
 with col2:
 
     st.metric(
@@ -636,8 +499,6 @@ with col2:
             "risk-assessment findings."
         )
     )
-
-
 with col3:
 
     st.metric(
@@ -648,8 +509,6 @@ with col3:
             "the summarization module."
         )
     )
-
-
 with col4:
 
     st.metric(
@@ -660,16 +519,8 @@ with col4:
             "an overall risk score of 70 or higher."
         )
     )
-
-
 st.write("")
 st.divider()
-
-
-# ============================================================
-# HISTORICAL MODULE COUNTS
-# ============================================================
-
 st.caption(
     "PLATFORM ACTIVITY"
 )
@@ -690,12 +541,6 @@ counts = dashboard_data.get(
     "table_counts",
     {}
 )
-
-
-# ------------------------------------------------------------
-# Display module counts
-# ------------------------------------------------------------
-
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -762,12 +607,6 @@ with col2:
 
 st.write("")
 st.divider()
-
-
-# ============================================================
-# ANALYSIS MODULES
-# ============================================================
-
 st.caption(
     "ANALYSIS MODULES"
 )
@@ -781,12 +620,6 @@ st.write(
 )
 
 st.write("")
-
-
-# ============================================================
-# ROW 1
-# ============================================================
-
 col1, col2, col3 = st.columns(
     3,
     gap="large"
@@ -856,8 +689,6 @@ with col2:
             st.switch_page(
                 "pages/Module2_NER.py"
             )
-
-
 with col3:
 
     with st.container(
@@ -888,12 +719,6 @@ with col3:
             st.switch_page(
                 "pages/Module3_Threat_Category.py"
             )
-
-
-# ============================================================
-# ROW 2
-# ============================================================
-
 st.write("")
 
 col1, col2, col3 = st.columns(
@@ -996,12 +821,6 @@ with col3:
             st.switch_page(
                 "pages/Module6_Compliance.py"
             )
-
-
-# ============================================================
-# ROW 3
-# ============================================================
-
 st.write("")
 
 col1, col2, col3 = st.columns(
@@ -1039,12 +858,6 @@ with col2:
             st.switch_page(
                 "pages/Module7_Explainability.py"
             )
-
-
-# ============================================================
-# ANALYST WORKFLOW
-# ============================================================
-
 st.write("")
 st.divider()
 
@@ -1112,12 +925,6 @@ with col4:
     st.caption(
         "Provide interpretable security insights."
     )
-
-
-# ============================================================
-# RECENT ACTIVITY
-# ============================================================
-
 st.write("")
 st.divider()
 
@@ -1172,12 +979,6 @@ else:
     st.info(
         "No analysis activity has been recorded yet."
     )
-
-
-# ============================================================
-# FOOTER
-# ============================================================
-
 st.write("")
 st.divider()
 

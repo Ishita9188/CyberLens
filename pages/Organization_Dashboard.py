@@ -9,11 +9,7 @@ from utils.dashboard_data import (
     get_user_organization,
     get_organization_statistics
 )
-
-
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
+from utils.theme2 import load_theme2
 
 st.set_page_config(
     page_title="CyberLens - Organization Intelligence",
@@ -22,10 +18,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-
-# ============================================================
-# SESSION CHECK
-# ============================================================
+load_theme2()
 
 if not st.session_state.get("logged_in", False):
 
@@ -40,14 +33,7 @@ if not st.session_state.get("logged_in", False):
         st.switch_page("pages/Login.py")
 
     st.stop()
-
-
-# ============================================================
-# CURRENT USER
-# ============================================================
-
 user_id = st.session_state.get("user_id")
-
 fullname = st.session_state.get(
     "fullname",
     "User"
@@ -57,17 +43,9 @@ role = st.session_state.get(
     "role",
     "User"
 )
-
-
-# ============================================================
-# GET ORGANIZATION
-# ============================================================
-
 organization_id, organization_name = (
     get_user_organization(user_id)
 )
-
-
 if not organization_id:
 
     st.warning(
@@ -79,23 +57,9 @@ if not organization_id:
     )
 
     st.stop()
-
-
-
-
-# ============================================================
-# ORGANIZATION DATA
-# ============================================================
-
 stats = get_organization_statistics(
     organization_id
 )
-
-
-# ============================================================
-# HEADER
-# ============================================================
-
 st.caption(
     "CYBERLENS  /  ORGANIZATION INTELLIGENCE"
 )
@@ -113,12 +77,6 @@ st.caption(
 )
 
 st.divider()
-
-
-# ============================================================
-# ORGANIZATION METRICS
-# ============================================================
-
 st.caption(
     "ORGANIZATION OVERVIEW"
 )
@@ -162,12 +120,6 @@ with col4:
 
 st.write("")
 st.divider()
-
-
-# ============================================================
-# ANALYST ACTIVITY
-# ============================================================
-
 st.caption(
     "ANALYST ACTIVITY"
 )
@@ -270,12 +222,6 @@ else:
 
 st.write("")
 st.divider()
-
-
-# ============================================================
-# ORGANIZATION ANALYSIS BREAKDOWN
-# ============================================================
-
 st.caption(
     "INTELLIGENCE COVERAGE"
 )
@@ -343,12 +289,6 @@ st.bar_chart(
     chart_df.set_index("Module"),
     use_container_width=True
 )
-
-
-# ============================================================
-# HIGH-RISK DISTRIBUTION
-# ============================================================
-
 st.write("")
 st.divider()
 
