@@ -17,6 +17,7 @@ Python | NLP | Pandas | NumPy | Scikit-learn | PyTorch | BERT | DistilBART | SQL
 
 # Analytical Workflow
 
+```text
 Threat Intelligence Data
         ↓
 Data Processing & Text Analysis
